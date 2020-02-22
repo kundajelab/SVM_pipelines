@@ -1,5 +1,5 @@
-task=$1
-idr=$2
+task=COLL
+idr=COLL.idr.optimal_peak.narrowPeak.summits.max.signal
 echo "starting $task $idr" 
 #./get_svm_peak_splits.sh $task $idr
 echo "got svm peak splits" 
