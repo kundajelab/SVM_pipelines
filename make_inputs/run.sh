@@ -1,7 +1,7 @@
-task=COLL
-idr=COLL.idr.optimal_peak.narrowPeak.summits.max.signal
+task=$1 #COLL
+idr=$2 #COLL.idr.optimal_peak.narrowPeak.summits.max.signal
 echo "starting $task $idr" 
-#./get_svm_peak_splits.sh $task $idr
+./get_svm_peak_splits.sh $task $idr
 echo "got svm peak splits" 
 ./get_gc_positives.sh $task
 echo "got gc content of the positive sequences" 
