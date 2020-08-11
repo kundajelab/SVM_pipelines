@@ -1,7 +1,7 @@
-inputf=$1
-numchunks=$2
-numthreads=$3
-modelpath=$4
+inputf=$1  ## input fasta file 
+numchunks=$2 ## number of parallel chunks to split input fasta file into 
+numthreads=$3 ## number of chunks to process in parallel with gkmexplain 
+modelpath=$4 ## path to model to use with gkmexplain. 
 
 split -t'>' -n $numchunks -d $inputf $inputf-
 #remove leading 0's
