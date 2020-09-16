@@ -39,7 +39,7 @@ def main():
     new_index=pd.MultiIndex.from_tuples(df.index, names=('CHR', 'START','END'))
     df = pd.DataFrame(df[0], new_index)
     if args.output_format=="tsv":
-        df.to_csv(args.out_prefix+".tsv",setp='\t', header=True, index=True, index_label=['CHROM','START','END'])
+        df.to_csv(args.out_prefix+".tsv",sep='\t', header=True, index=True, index_label=['CHROM','START','END'])
     else:
         assert args.output_format=="hdf5"
         df.to_hdf(args.out_prefix+".hdf5",key='data',mode='w',append=False,format='table',min_itemsize=30)                
