@@ -1,3 +1,11 @@
+## Standalone interpretation script for running off-sherlock ##  
+
+**interpret_standalone.sh** 
+
+
+## If running variant interpretation on sherlock from a bed file:   
+
+
 The code assumes you have a bed file with the following columns:
 
 * Chromosome
