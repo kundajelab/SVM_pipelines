@@ -3,20 +3,12 @@ import pdb
 import pysam 
 import numpy as np
 import pandas as pd
-from dragonn.vis import *
-from kerasAC.splits import * 
+from plot_letters import *
+from kerasAC.splits import *
+import sys
+sys.path.append("../utils")
+from utils import *
 import pdb
-ltrdict = {'a':[1,0,0,0],
-           'c':[0,1,0,0],
-           'g':[0,0,1,0],
-           't':[0,0,0,1],
-           'n':[0,0,0,0],
-           'A':[1,0,0,0],
-           'C':[0,1,0,0],
-           'G':[0,0,1,0],
-           'T':[0,0,0,1],
-           'N':[0,0,0,0]}
-
 
 def parse_args():
     parser=argparse.ArgumentParser()
@@ -75,20 +67,6 @@ def plot_seq_importance(outf,tracks,labels,ylim,xlim,snp_pos, heatmap_indices=No
     plt.savefig(outf,format='png',dpi=120)
     plt.close() 
     return 
-
-def get_vals_from_gkm_line(seq):
-    return np.asarray([[float(i) for i in i.split(',')] for i in seq.split(';')])
-
-def one_hot_encode(seq):
-    return np.array([ltrdict.get(x,[0,0,0,0]) for x in seq])
-
-
-def get_seq(ref,chrom,pos,allele,flank):
-    seq_prefix=ref.fetch(chrom,int(pos)-flank,int(pos)).upper() 
-    seq_suffix=ref.fetch(chrom,int(pos)+1,int(pos)+flank).upper()
-    #one-hot-encode the seq 
-    return one_hot_encode(seq_prefix+allele.upper()+seq_suffix)
-
 
 def main():
     args=parse_args()

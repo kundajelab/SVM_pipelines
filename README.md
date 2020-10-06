@@ -16,3 +16,4 @@ Execute scripts in `interpret` to run gkmexplain interpretation.
 
 Execute scripts in `plot_interpretations` to plot gkmexplain interpretations.  
 
+Execute `util.gkmexplain_to_bigwig.py` to generate a bigwig representation of gkmexplain scores
