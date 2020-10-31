@@ -2,4 +2,4 @@
 task=$1
 idr=$2
 genomewide_gc=$3
-bedtools intersect -v -a $genomewide_gc -b $task/$idr > $task/$task.candidate.negatives.tsv
+bedtools intersect -v -a $genomewide_gc -b $idr > $task/$task.candidate.negatives.tsv
