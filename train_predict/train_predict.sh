@@ -1,9 +1,14 @@
 #!/bin/bash
+
 task=$1
 fold=$2
+indir=$3
+outdir=$4
+lsgkm_dir=$5
 
-gkmtrain -m 10000 -v 2 -T 16 /oak/stanford/groups/akundaje/projects/alzheimers_parkinsons/dopa_neurons_cluster_10/svm_inputs/$task.svm.inputs.train.$fold.positives /oak/stanford/groups/akundaje/projects/alzheimers_parkinsons/dopa_neurons_cluster_10/svm_inputs/$task.svm.inputs.train.$fold.negatives /oak/stanford/groups/akundaje/projects/alzheimers_parkinsons/dopa_neurons_cluster_10/models/model.$task.$fold
+$lsgkm_dir/gkmtrain -m 10000 -v 2 -T 16 $indir/$task/svm.inputs.$task.train.$fold.positives $indir/$task/svm.inputs.$task.train.$fold.negatives $outdir/$task/models/$task.$fold
 
-gkmpredict -v 2 -T 16 /oak/stanford/groups/akundaje/projects/alzheimers_parkinsons/dopa_neurons_cluster_10/svm_inputs/$task.svm.inputs.test.$fold.positives /oak/stanford/groups/akundaje/projects/alzheimers_parkinsons/dopa_neurons_cluster_10/models/model.$task.$fold.model.txt /oak/stanford/groups/akundaje/projects/alzheimers_parkinsons/dopa_neurons_cluster_10/predictions/$task.$fold.positives
+$lsgkm_dir/gkmpredict -v 2 -T 16 $indir/$task/svm.inputs.$task.test.$fold.positives $outdir/$task/models/$task.$fold.model.txt $outdir/$task/predictions/$task.$fold.positives
 
-gkmpredict -v 2 -T 16 /oak/stanford/groups/akundaje/projects/alzheimers_parkinsons/dopa_neurons_cluster_10/svm_inputs/$task.svm.inputs.test.$fold.negatives /oak/stanford/groups/akundaje/projects/alzheimers_parkinsons/dopa_neurons_cluster_10/models/model.$task.$fold.model.txt /oak/stanford/groups/akundaje/projects/alzheimers_parkinsons/dopa_neurons_cluster_10/predictions/$task.$fold.negatives
+$lsgkm_dir/gkmpredict -v 2 -T 16 $indir/$task/svm.inputs.$task.test.$fold.negatives $outdir/$task/models/$task.$fold.model.txt $outdir/$task/predictions/$task.$fold.negatives
+

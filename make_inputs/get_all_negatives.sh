@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#get the inverse intersection of idr peak file and all gc genome bins
+#get the inverse intersection of all peaks and all gc genome bins
 
 task=$1
 peaks=$2
@@ -16,5 +16,5 @@ done
 
 cat $peaks $outdir/$task/$task.all.positives.bed > $outdir/$task/$task.all.peaks.bed
 
-bedtools intersect -v -a $genomewide_gc -b $idr > $task/$task.candidate.negatives.tsv
+bedtools intersect -v -a $genomewide_gc -b $peaks > $outdir/$task/$task.candidate.negatives.tsv
 
