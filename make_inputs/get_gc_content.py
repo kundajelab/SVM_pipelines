@@ -1,6 +1,7 @@
 import pandas as pd
 import pysam
 import argparse
+
 def parse_args():
     parser=argparse.ArgumentParser(description="get gc content from a bed file")
     parser.add_argument("--input_bed")
@@ -9,12 +10,13 @@ def parse_args():
     parser.add_argument("--out_prefix")
     parser.add_argument("--center_summit",action="store_true",default=False)
     parser.add_argument("--flank_size",type=int,default=500)
-    parser.add_argument("--store_seq",action="store_true",default=False) 
+    parser.add_argument("--store_seq",action="store_true",default=False)
     return parser.parse_args()
+
 def get_line_narrowPeak(row,args):
     chrom=row[0]
     start=row[1]
-    end=row[2] 
+    end=row[2]
     if args.center_summit==True:
         summit=start+row[9]
         start=summit-args.flank_size
@@ -25,8 +27,7 @@ def get_line_hdf5(index):
     chrom=index[0]
     start=index[1]
     end=index[2]
-    return chrom, start,end 
-
+    return chrom, start,end
 
 def main():
     args=parse_args()
@@ -37,14 +38,14 @@ def main():
     if args.input_bed.endswith('.hdf5'):
         #load as hdf5
         is_narrowPeak=False
-        data=pd.read_hdf(args.input_bed,header=0,sep='\t')
+        data=pd.read_hdf(args.input_bed,header=None,sep='\t')
     else:
         #load csv
-        data=pd.read_csv(args.input_bed,header=0,sep='\t')
+        data=pd.read_csv(args.input_bed,header=None,sep='\t')
     print("loaded bed file")
     num_rows=str(data.shape[0])
-    print("num_rows:"+num_rows) 
-    cur_row=0 
+    print("num_rows:"+num_rows)
+    cur_row=0
     for index,row in data.iterrows():
         if cur_row%1000==0:
             print(str(cur_row)+"/"+num_rows)
@@ -83,6 +84,7 @@ def main():
             outputs[chrom].close()
     else:
         outf.close()
-        
+
 if __name__=="__main__":
     main()
+

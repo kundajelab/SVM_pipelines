@@ -1,10 +1,10 @@
 import random
-random.seed(1234)
 import pickle
 import argparse
 import pysam
 import pandas as pd
-import pdb 
+import pdb
+random.seed(1234)
 
 def parse_args():
     parser=argparse.ArgumentParser(description="form svm inputs")
@@ -12,7 +12,7 @@ def parse_args():
     parser.add_argument("--overwrite_outf",action="store_true",default=False)
     parser.add_argument("--neg_pickle")
     parser.add_argument("--ref_fasta")
-    parser.add_argument("--peaks",nargs="+") 
+    parser.add_argument("--peaks",nargs="+")
     return parser.parse_args()
 
 def scale_gc(cur_gc):
@@ -27,7 +27,7 @@ def scale_gc(cur_gc):
         cur_gc-=0.01
     assert cur_gc >=0
     assert cur_gc <=1
-    return cur_gc 
+    return cur_gc
 
 def adjust_gc(chrom,cur_gc,negatives,used_negatives):
     #verify that cur_gc is in negatives dict
@@ -41,9 +41,7 @@ def adjust_gc(chrom,cur_gc,negatives,used_negatives):
         cur_gc=scale_gc(cur_gc)
         if cur_gc not in used_negatives[chrom]:
             used_negatives[chrom][cur_gc]=dict()
-    return cur_gc,used_negatives 
-
-        
+    return cur_gc,used_negatives
 
 def main():
     args=parse_args()
@@ -55,20 +53,20 @@ def main():
         cur_peaks=args.peaks[i]
         cur_outf=args.outf[i]
         print("cur_peaks:"+cur_peaks)
-        print("cur_outf:"+cur_outf) 
+        print("cur_outf:"+cur_outf)
         if args.overwrite_outf is True:
             outf_pos=open(cur_outf+'.positives','w')
             outf_neg=open(cur_outf+'.negatives','w')
         else:
-            #open in append mode for the current chromosome 
+            #open in append mode for the current chromosome
             outf_pos=open(cur_outf+'.positives','a')
             outf_neg=open(cur_outf+'.negatives','a')
         #chrom->start->end->gc->seq
         cur_peaks=pd.read_csv(cur_peaks,header=None,sep='\t')
-        print("loaded peaks for task") 
+        print("loaded peaks for task")
         for index,row in cur_peaks.iterrows():
             if index%100==0:
-                print(index) 
+                print(index)
             chrom=row[0]
             cur_gc,used_negatives=adjust_gc(chrom,row[3],negatives,used_negatives)
             start=row[1]
@@ -91,13 +89,13 @@ def main():
             neg_start=neg_tuple[1]
             neg_end=neg_tuple[2]
             neg_seq=ref.fetch(neg_chrom,int(neg_start),int(neg_end))
-            
+
             neg_header='_'.join([str(i) for i in [neg_chrom,neg_start,neg_end,cur_gc]])
             outf_pos.write('>'+header+'\n'+seq+'\n')
             outf_neg.write('>'+neg_header+'\n'+neg_seq+'\n')
         outf_pos.close()
-        outf_neg.close() 
+        outf_neg.close()
 
 if __name__=="__main__":
     main()
-    
+

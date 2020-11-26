@@ -1,8 +1,7 @@
 import argparse
-from kerasAC.splits import *
+from splits import *
 import pandas as pd
 import pysam
-
 
 def parse_args():
     parser=argparse.ArgumentParser(description="generate positive inputs for svm")
@@ -14,7 +13,7 @@ def parse_args():
     parser.add_argument("--nosort",action='store_true',default=False)
     parser.add_argument("--no_train",action='store_true',default=False)
     parser.add_argument("--no_test", action='store_true',default=False)
-    parser.add_argument("--folds",nargs="+",type=int,default=None) 
+    parser.add_argument("--folds",nargs="+",type=int,default=None)
     return parser.parse_args()
 
 def main():
@@ -32,7 +31,7 @@ def main():
     processed=dict()
     outputs=dict()
     fold_dict=dict()
-    if args.folds is None: 
+    if args.folds is None:
         folds=list(splits[args.genome].keys())
     else:
         folds=args.folds
@@ -41,18 +40,18 @@ def main():
         max_train=sorted_peaks.shape[0]
     max_test=args.ntest
     if max_test is None:
-        max_test=sorted_peaks.shape[0] 
+        max_test=sorted_peaks.shape[0]
 
     for fold in folds:
         print("setting up for fold:"+str(fold))
         processed[fold]=dict()
-        outputs[fold]=dict() 
+        outputs[fold]=dict()
         if args.no_train is False:
-            processed[fold]['train']=0 
-            outputs[fold]['train']=open(args.out_prefix+'.train.'+str(fold),'w')
+            processed[fold]['train']=0
+            outputs[fold]['train']=open(args.out_prefix + '.train.' + str(fold) + '.bed', 'w')
         if args.no_test is False:
             processed[fold]['test']=0
-            outputs[fold]['test']=open(args.out_prefix+'.test.'+str(fold),'w')
+            outputs[fold]['test']=open(args.out_prefix + '.test.' + str(fold) + '.bed', 'w')
         args.fold=fold
         args.train_chroms=None
         args.validation_chroms=None
@@ -66,7 +65,7 @@ def main():
             fold_dict[fold][chrom]='train'
         for chrom in test_chroms:
             fold_dict[fold][chrom]='test'
-            
+
     for index,row in sorted_peaks.iterrows():
         if index%1000==0:
             print(index)
@@ -85,13 +84,12 @@ def main():
                         processed[fold]['test']+=1
                         outputs[fold]['test'].write(line)
     if args.no_train is False:
-        for fold in folds: 
+        for fold in folds:
             outputs[fold]['train'].close()
     if args.no_test is False:
         for fold in folds:
-            outputs[fold]['test'].close() 
-    
+            outputs[fold]['test'].close()
+
 if __name__=="__main__":
     main()
-    
-    
+

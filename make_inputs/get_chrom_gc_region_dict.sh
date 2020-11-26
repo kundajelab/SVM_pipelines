@@ -1,2 +1,9 @@
+#!/bin/bash
+
 task=$1
-python get_chrom_gc_region_dict.py --input_bed $task/$task.candidate.negatives.tsv --outf $task/$task.candidate.negatives.gc.p
+outdir=$2
+
+python get_chrom_gc_region_dict.py \
+       --input_bed $outdir/$task/$task.candidate.negatives.tsv \
+       --outf $outdir/$task/$task.candidate.negatives.gc.p
+

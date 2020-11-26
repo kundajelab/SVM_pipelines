@@ -1,5 +1,6 @@
 import argparse
 import pickle
+
 def parse_args():
     parser=argparse.ArgumentParser(description="generate a pickle with chrom->gc->regions")
     parser.add_argument("--input_bed",help="bed file with gc content in 4th column rounded to 2 decimals")
@@ -10,12 +11,12 @@ def main():
     args=parse_args()
     data=open(args.input_bed,'r')
     gc_dict={}
-    index=0 
+    index=0
     for line in data:
-        line=line.strip('\n') 
+        line=line.strip('\n')
         index+=1
         if index%1000000==0:
-            print(index) 
+            print(index)
         tokens=line.split('\t')
         chrom=tokens[0]
         gc=float(tokens[-1])
@@ -27,12 +28,10 @@ def main():
             gc_dict[chrom][gc]=[(chrom,start,end)]
         else:
             gc_dict[chrom][gc].append([(chrom,start,end)])
-    print("pickling!") 
+    print("pickling!")
     #pickle!
     pickle.dump( gc_dict, open( args.outf, "wb" ) )
 
-
-    
 if __name__=="__main__":
     main()
-    
+
