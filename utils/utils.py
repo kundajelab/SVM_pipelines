@@ -19,9 +19,9 @@ def one_hot_encode(seq):
     return np.array([ltrdict.get(x,[0,0,0,0]) for x in seq])
 
 
-def get_seq(ref,chrom,pos,allele,flank):
-    seq_prefix=ref.fetch(chrom,int(pos)-flank,int(pos)).upper() 
-    seq_suffix=ref.fetch(chrom,int(pos)+1,int(pos)+flank).upper()
+def get_seq(ref,chrom,start,end):
+    #seq_prefix=ref.fetch(chrom,int(pos)-flank,int(pos)).upper() 
+    #seq_suffix=ref.fetch(chrom,int(pos)+1,int(pos)+flank).upper()
+    seq=ref.fetch(chrom,start,end).upper()
     #one-hot-encode the seq 
-    return one_hot_encode(seq_prefix+allele.upper()+seq_suffix)
-
+    return one_hot_encode(seq)
