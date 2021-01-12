@@ -1,3 +1,5 @@
+#!/bin/bash
+
 task=$1 #COLL
 idr=$2 #COLL.idr.optimal_peak.narrowPeak.summits.max.signal
 genomewide_gc=$3
