@@ -14,7 +14,9 @@ do
     cat $outdir/$task/svm.peaks.$task.test.$split.gc.seq | cut -f 1-3 >> $outdir/$task/$task.all.positives.bed
 done
 
-cut -f 1-3 $peaks > $outdir/$task/$task.peaks.bed
+python peak_to_bed.py $peaks $outdir/$task/$task.peaks.bed
+
+#cut -f 1-3 $peaks > $outdir/$task/$task.peaks.bed
 
 cat $outdir/$task/$task.peaks.bed $outdir/$task/$task.all.positives.bed > $outdir/$task/$task.all.positives.peaks.bed
 
