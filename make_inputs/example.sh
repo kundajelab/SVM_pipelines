@@ -11,7 +11,7 @@ chrom_sizes=mm10.chrom.sizes
 
 cd /home/groups/akundaje/soumyak/SVM_pipelines/make_inputs
 
-#make_gc_nosmooth_track --ref_fasta $ref_fasta \
+#python make_gc_nosmooth_track.py --ref_fasta $ref_fasta \
 #                       --chrom_sizes $chrom_sizes \
 #                       --out_prefix $genomewide_gc
 
