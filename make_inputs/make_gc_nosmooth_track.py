@@ -15,7 +15,6 @@ def parse_args():
     parser.add_argument("--out_prefix")
     parser.add_argument("--region_size",type=int,default=1000)
     parser.add_argument("--stride",type=int,default=50)
-    parser.add_argument("--output_format",choices=['tsv','hdf5'],help="store output track as either a .tsv or an .hdf5 file")
     return parser.parse_args()
 
 def main():
@@ -43,11 +42,7 @@ def main():
     print("made df")
     new_index=pd.MultiIndex.from_tuples(df.index, names=('CHR', 'START','END'))
     df = pd.DataFrame(df[0], new_index)
-    if args.output_format=="tsv":
-        df.to_csv(args.out_prefix+".tsv",sep='\t', header=True, index=True, index_label=['CHROM','START','END'])
-    else:
-        assert args.output_format=="hdf5"
-        df.to_hdf(args.out_prefix+".hdf5",key='data',mode='w',append=False,format='table',min_itemsize=30)
+    df.to_csv(args.out_prefix,sep='\t', header=False, index=True)
 
 if __name__=="__main__":
     main()
